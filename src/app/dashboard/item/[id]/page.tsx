@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getItemDetails } from '@/lib/models/item'
 import { getCurrentAuthUser } from '@/lib/models/user'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -14,6 +15,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       </Button>
       {itemDetails ? (
         <>
+        <div style={{display: 'flex'}}>
+            <Image
+              src={itemDetails.photo}
+              alt="veggie-image"
+              width={200}
+              height={0}
+              style={{height: 'auto'}}
+            />
+          </div>
           <Typography variant="h4">{itemDetails.name}</Typography>
           <Typography color={itemDetails.description ? 'text.primary' : 'text.secondary'}>
             {itemDetails.description || 'No description'}
