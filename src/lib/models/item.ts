@@ -6,17 +6,19 @@ import { AuthUser } from './user'
 type ListItem = {
   id: string
   name: string
+  photo: string
 }
 
 type ListItemDetails = {
   id: string
   name: string
+  photo: string
   description: string | null
 }
 
 export const listMyItems = async (authUser: AuthUser): Promise<ListItem[]> => {
   const items = await prisma.listItem.findMany({ where: { authorId: authUser.id } })
-  return items.map((item) => ({ id: item.id, name: item.name }))
+  return items.map((item) => ({ id: item.id, name: item.name, photo: item.photo }))
 }
 
 export const getItemDetails = async (
@@ -25,20 +27,22 @@ export const getItemDetails = async (
 ): Promise<ListItemDetails | null> => {
   const listItem = await prisma.listItem.findFirst({ where: { id, authorId: authUser.id } })
   if (!listItem) return null
-  return { id: listItem.id, name: listItem.name, description: listItem.description }
+  return { id: listItem.id, name: listItem.name, photo: listItem.photo, description: listItem.description }
 }
 
 export const createItem = async (
   authUser: AuthUser,
   name: string,
+  photo: string,
   description: string,
 ): Promise<ListItem> => {
   const schema = z.object({
     name: z.string().trim().min(1),
+    photo: z.string().trim().url(),
     description: z.string().trim().optional(),
   })
 
-  const parse = schema.safeParse({ name, description })
+  const parse = schema.safeParse({ name, photo, description })
 
   if (!parse.success) {
     throw fromError(parse.error)
@@ -46,7 +50,7 @@ export const createItem = async (
 
   const data = parse.data
   const listItem = await prisma.listItem.create({
-    data: { name: data.name, description: data.description, authorId: authUser.id },
+    data: { name: data.name, photo: data.photo, description: data.description, authorId: authUser.id },
   })
-  return { id: listItem.id, name: listItem.name }
+  return { id: listItem.id, name: listItem.name, photo: listItem.photo }
 }
