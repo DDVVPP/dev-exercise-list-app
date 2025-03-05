@@ -46,6 +46,7 @@ export const AddItemButton = () => {
           <DialogContent>
             <Stack spacing={2} sx={{ my: 2 }}>
               <TextField name="name" label="Name" fullWidth />
+              <TextField name="photo" label="Photo URL" fullWidth />
               <TextField
                 name="description"
                 label="Description"
