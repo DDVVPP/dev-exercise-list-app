@@ -23,17 +23,18 @@ import { useState } from 'react'
 export const AddItemButton = ({categories}: {categories: Category[]}) => {
   const { enqueueSnackbar } = useSnackbar()
   const [open, setOpen] = useState(false)
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
   }
     const handleChange = (event: SelectChangeEvent) => {
-    setCategory(event.target.value as string);
+    setCategoryId(event.target.value as string);
   };
 
   const handleSubmit = async (formData: FormData) => {
+
     try {
       await addItemAction(formData)
     } catch (error) {
@@ -59,20 +60,20 @@ export const AddItemButton = ({categories}: {categories: Category[]}) => {
 
               {categories.length > 0 && (
                 <Select
-                  labelId="category"
-                  id="category"
-                  name='category'
+                  labelId="categoryId"
+                  id="categoryId"
+                  name='categoryId'
                   fullWidth
-                  value={category}
+                  value={categoryId}
                   label="Category"
                   onChange={handleChange}
                 >
                   {
-                    categories.map((category) => {
-                      return (
-                        <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
-                      )
-                    })
+                    categories.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))
                   }
               </Select>
               )}

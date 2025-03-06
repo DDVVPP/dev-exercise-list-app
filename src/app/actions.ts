@@ -9,6 +9,7 @@ export const addItemAction = async (formData: FormData): Promise<void> => {
   const name = formData.get('name') as string
   const description = formData.get('description') as string
   const photo = formData.get('photo') as string
-  await createItem(authUser, name, photo, description)
+    const categoryId = formData.get('categoryId') as string
+  await createItem(authUser, name, photo, categoryId, description)
   revalidatePath('/')
 }
