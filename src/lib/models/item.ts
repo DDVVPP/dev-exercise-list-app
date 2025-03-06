@@ -14,7 +14,7 @@ type ListItemDetails = {
   id: string
   name: string
   photo: string
-  categoryId: string
+  categoryName: string | null
   description: string | null
 }
 
@@ -29,7 +29,17 @@ export const getItemDetails = async (
 ): Promise<ListItemDetails | null> => {
   const listItem = await prisma.listItem.findFirst({ where: { id, authorId: authUser.id } })
   if (!listItem) return null
-  return { id: listItem.id, name: listItem.name, photo: listItem.photo, categoryId: listItem.categoryId, description: listItem.description }
+  const categoryName = await getCategoryName(listItem.categoryId)
+
+  return { id: listItem.id, name: listItem.name, photo: listItem.photo, categoryName: categoryName, description: listItem.description }
+}
+
+const getCategoryName = async (
+  categoryId: string
+): Promise<string | null> => {
+  const category = await prisma.category.findFirst({ where: { id: categoryId }})
+  if (!category) return null
+  return category.name;
 }
 
 export const createItem = async (
