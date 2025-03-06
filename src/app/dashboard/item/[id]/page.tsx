@@ -19,12 +19,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Image
               src={itemDetails.photo}
               alt="veggie-image"
-              width={200}
+              width={300}
               height={0}
               style={{height: 'auto'}}
             />
           </div>
           <Typography variant="h4">{itemDetails.name}</Typography>
+          <Typography variant="h6">{itemDetails.categoryName || 'No category'}</Typography>
           <Typography color={itemDetails.description ? 'text.primary' : 'text.secondary'}>
             {itemDetails.description || 'No description'}
           </Typography>
