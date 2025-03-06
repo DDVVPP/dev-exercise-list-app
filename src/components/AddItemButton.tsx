@@ -9,6 +9,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -59,23 +61,26 @@ export const AddItemButton = ({categories}: {categories: Category[]}) => {
               <TextField name="photo" label="Photo URL" fullWidth />
 
               {categories.length > 0 && (
-                <Select
-                  labelId="categoryId"
-                  id="categoryId"
-                  name='categoryId'
-                  fullWidth
-                  value={categoryId}
-                  label="Category"
-                  onChange={handleChange}
-                >
-                  {
-                    categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))
-                  }
-              </Select>
+                <FormControl fullWidth>
+                  <InputLabel id="category-label">Category</InputLabel>
+                  <Select
+                    labelId='category-label'
+                    id="categoryId"
+                    name='categoryId'
+                    fullWidth
+                    value={categoryId}
+                    label="Category"
+                    onChange={handleChange}
+                  >
+                    {
+                      categories.map((category) => (
+                        <MenuItem key={category.id} value={category.id}>
+                          {category.name}
+                        </MenuItem>
+                      ))
+                    }
+                </Select>
+              </FormControl>
               )}
 
               <TextField
