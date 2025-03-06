@@ -1,7 +1,9 @@
 import { AddItemButton } from '@/components/AddItemButton'
+import { getCategories } from '@/lib/models/category'
 import { listMyItems } from '@/lib/models/item'
 import { getCurrentAuthUser } from '@/lib/models/user'
 import { pluralize } from '@/lib/utils'
+import { Category } from '@prisma/client'
 import {
   Box,
   Divider,
@@ -16,6 +18,7 @@ import {
 export default async function Home() {
   const authUser = getCurrentAuthUser()
   const items = await listMyItems(authUser)
+  const categories = await getCategories()
 
   return (
     <Stack spacing={2} sx={{ maxWidth: 400 }}>
@@ -35,7 +38,7 @@ export default async function Home() {
           in your list
         </Typography>
 
-        <AddItemButton />
+        <AddItemButton categories={categories as Category[]}/>
       </Box>
       {items.length > 0 && (
         <Box
