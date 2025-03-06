@@ -20,7 +20,7 @@ type ListItemDetails = {
 
 export const listMyItems = async (authUser: AuthUser): Promise<ListItem[]> => {
   const items = await prisma.listItem.findMany({ where: { authorId: authUser.id } })
-  return items.map((item) => ({ id: item.id, name: item.name, photo: item.photo, categoryId: item.categoryId}))
+  return items.map((item) => ({ id: item.id, name: item.name, photo: item.photo, categoryId: item.categoryId }))
 }
 
 export const getItemDetails = async (
@@ -56,7 +56,7 @@ export const createItem = async (
     description: z.string().trim().optional(),
   })
 
-  const parse = schema.safeParse({ name, photo,categoryId,  description })
+  const parse = schema.safeParse({ name, photo, categoryId, description })
 
   if (!parse.success) {
     throw fromError(parse.error)
